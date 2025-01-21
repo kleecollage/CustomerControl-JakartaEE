@@ -47,6 +47,27 @@
                     </table>
                 </div>
             </div>
+            <%-- TOTALS --%>
+            <div class="col-md-3">
+                <div class="card text-center bg-danger text-white mb-3">
+                    <div class="card-body">
+                        <h3>Total Balance</h3>
+                        <h4 class="display-6">
+                            <fmt:formatNumber value="${totalBalance}" type="currency" />
+                        </h4>
+                    </div>
+                </div>
+                <div class="card text-center bg-success text-white mb-3">
+                    <div class="card-body">
+                        <h3>Total Customers</h3>
+                        <h4 class="display-6">
+                            <i class="bi bi-people"></i> ${totalCustomers}
+                        </h4>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </section>

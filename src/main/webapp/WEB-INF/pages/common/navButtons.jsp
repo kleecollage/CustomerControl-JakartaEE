@@ -10,7 +10,7 @@
         <dic class="row">
             <div class="col-md-3">
                 <button type="button" class="btn btn-primary btn-block w-100" data-bs-toggle="modal"
-                    data-bs-target="#addClientModal">
+                    data-bs-target="#addCustomerModal">
                     <i class="bi bi-plus-circle"></i>&nbsp;Add New Client
                 </button>
             </div>

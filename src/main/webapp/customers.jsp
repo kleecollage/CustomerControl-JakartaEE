@@ -19,8 +19,8 @@
 <jsp:include page="WEB-INF/pages/common/navButtons.jsp" />
 <%--CUSTOMERS LIST--%>
 <jsp:include page="/WEB-INF/pages/customer/listCustommers.jsp" />
-<%-- TODO MODEL TO ADD NEW CLIENT--%>
-
+<%-- MODAL TO ADD NEW CLIENT--%>
+<jsp:include page="WEB-INF/pages/customer/addCustomer.jsp" />
 <%--FOOTER--%>
 <jsp:include page="/WEB-INF/pages/common/footer.jsp" />
 
