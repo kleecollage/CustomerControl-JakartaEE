@@ -12,8 +12,9 @@ public class CustomerDao {
             "SELECT id_customer, name, surname, email, phone, balance FROM customers";
     private static final String SQL_INSERT =
             "INSERT INTO customers(name, surname, email, phone, balance) VALUES (?, ?, ?, ?, ?)";
-    private static final String SQL_SELECT_BY_ID =
-            "SELECT * FROM customers WHERE id_customer = ?";
+    private static final String SQL_SELECT_BY_ID = "SELECT * FROM customers WHERE id_customer = ?";
+    private static final String SQL_UPDATE =
+            "UPDATE customers SET name = ?, surname = ?, email = ?, phone = ?, balance = ? WHERE id_customer = ?";
 
     public List<Customer> listCustomers() {
         List<Customer> customers = new ArrayList<>();
@@ -72,5 +73,23 @@ public class CustomerDao {
             ex.printStackTrace(System.err);
         }
         return customer;
+    }
+
+    public int update(Customer customer) {
+        int rows = 0;
+        try(Connection conn = DbConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(SQL_UPDATE)) {
+            stmt.setString(1, customer.getName());
+            stmt.setString(2, customer.getSurname());
+            stmt.setString(3, customer.getEmail());
+            stmt.setString(4, customer.getPhone());
+            stmt.setDouble(5, customer.getBalance());
+            stmt.setInt(6, customer.getId_customer());
+
+            rows = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+        }
+        return rows;
     }
 }

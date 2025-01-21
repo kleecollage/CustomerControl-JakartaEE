@@ -17,7 +17,7 @@ public class ServletController extends HttpServlet {
         String action = Optional.ofNullable(request.getParameter("action")).orElse("listCustomers");
         switch (action) {
             case "listCustomers" -> this.listCustomers(request, response);
-            case "edit" -> this.updateCustomer(request, response);
+            case "edit" -> this.getCustomer(request, response);
             default -> this.listCustomers(request, response);
         }
     }
@@ -46,7 +46,7 @@ public class ServletController extends HttpServlet {
         return customers.stream().mapToDouble(Customer::getBalance).sum();
     }
 
-    private void updateCustomer(HttpServletRequest request, HttpServletResponse response)
+    private void getCustomer(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         int idCustomer = Integer.parseInt(request.getParameter("idCustomer"));
         Customer customer = new CustomerDao().findCustomer(new Customer(idCustomer));
@@ -61,6 +61,7 @@ public class ServletController extends HttpServlet {
         String action = Optional.ofNullable(request.getParameter("action")).orElse("listCustomers");
         switch (action) {
             case "insert" -> this.insertCustomer(request, response);
+            case "edit" -> this.updateCustomer(request, response);
             default -> this.listCustomers(request, response);
         }
     }
@@ -77,6 +78,22 @@ public class ServletController extends HttpServlet {
         Customer customer = new Customer(name, surname, email, phone, balance);
         new CustomerDao().insert(customer);
         // LIST CLIENTS
+        this.listCustomers(request, response);
+    }
+
+    private void updateCustomer(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // PROCESS FORM DATA
+        int idCustomer = Integer.parseInt(request.getParameter("idCustomer"));
+        String name = request.getParameter("name");
+        String surname = request.getParameter("surname");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+        double balance = Double.parseDouble(request.getParameter("balance"));
+        // CREATE OBJECT TYPE CUSTOMER
+        Customer customer = new Customer(idCustomer, name, surname, email, phone, balance);
+        new CustomerDao().update(customer);
+        // REDIRECT TO CUSTOMERS LIST
         this.listCustomers(request, response);
     }
 }

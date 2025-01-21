@@ -22,12 +22,46 @@
 <body>
 <%-- HEADER --%>
 <jsp:include page="/WEB-INF/pages/common/header.jsp" />
-
 <%--UPDATE CUSTOMER FORM--%>
 <form action="${pageContext.request.contextPath}/ServletController?action=edit&idCustomer=${customer.id_customer}"
       method="post" class="was-validated">
     <%-- EDITION NAV BUTTONS --%>
     <jsp:include page="/WEB-INF/pages/common/navEditionButtons.jsp" />
+    <div class="container my-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4>Update Customer</h4>
+            </div>
+            <div class="card-body">
+                <div class="form-group mb-3">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required
+                        value="${customer.name}">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="surname">Surname</label>
+                    <input type="text" class="form-control" id="surname" name="surname" required
+                        value="${customer.surname}">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required
+                        value="${customer.email}">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="phone">Phone</label>
+                    <input type="text" class="form-control" id="phone" name="phone" required
+                        value="${customer.phone}">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="balance">Balance</label>
+                    <input type="number" step="any" class="form-control" id="balance" name="balance" required
+                        value="${customer.balance}">
+                </div>
+                <button type="submit" class="btn btn-success">Save Changes</button>
+            </div>
+        </div>
+    </div>
 </form>
 <%--FOOTER--%>
 <jsp:include page="/WEB-INF/pages/common/footer.jsp" />
