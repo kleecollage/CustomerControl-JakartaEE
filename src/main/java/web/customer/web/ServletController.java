@@ -5,9 +5,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import web.customer.data.CustomerDao;
 import web.customer.model.Customer;
-
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +25,24 @@ public class ServletController extends HttpServlet {
         throws ServletException, IOException {
         List<Customer> customers = new CustomerDao().listCustomers();
         System.out.println("customers = " + customers);
+        // GET SESSION
+        HttpSession session = request.getSession();
+        session.setAttribute("customers", customers);
+        session.setAttribute("totalCustomers", customers.size());
+        session.setAttribute("totalBalance", this.calcTotalBalance(customers));
         // send request to JSP of customers
         request.getRequestDispatcher("customers.jsp").forward(request, response);
+    }
+
+    private double calcTotalBalance(List<Customer> customers) {
+        /* TRADITIONAL CODE
+        double totalBalance = 0.0;
+        for (Customer customer : customers) {
+            totalBalance += customer.getBalance();
+        }
+        return totalBalance; */
+        // MODERN CODE (1 line) //
+        return customers.stream().mapToDouble(Customer::getBalance).sum();
     }
 
     @Override
