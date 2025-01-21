@@ -83,4 +83,16 @@ public class Customer {
     public void setBalance(Double balance) {
         this.balance = balance;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id_customer=" + id_customer +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", balance=" + balance +
+                '}';
+    }
 }
