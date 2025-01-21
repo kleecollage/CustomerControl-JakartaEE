@@ -18,6 +18,7 @@ public class ServletController extends HttpServlet {
         switch (action) {
             case "listCustomers" -> this.listCustomers(request, response);
             case "edit" -> this.getCustomer(request, response);
+            case "delete" -> this.deleteCustomer(request, response);
             default -> this.listCustomers(request, response);
         }
     }
@@ -53,6 +54,14 @@ public class ServletController extends HttpServlet {
         request.setAttribute("customer", customer);
         String jspUpdate = "/WEB-INF/pages/customer/editCustomer.jsp";
         request.getRequestDispatcher(jspUpdate).forward(request, response);
+    }
+
+    private void deleteCustomer(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int idCustomer = Integer.parseInt(request.getParameter("idCustomer"));
+        new CustomerDao().delete(new Customer(idCustomer));
+        // REDIRECT TO CUSTOMERS LIST
+        this.listCustomers(request, response);
     }
 
     @Override

@@ -27,6 +27,7 @@
       method="post" class="was-validated">
     <%-- EDITION NAV BUTTONS --%>
     <jsp:include page="/WEB-INF/pages/common/navEditionButtons.jsp" />
+    <%-- CARD --%>
     <div class="container my-4">
         <div class="card">
             <div class="card-header bg-primary text-white">
@@ -58,7 +59,11 @@
                     <input type="number" step="any" class="form-control" id="balance" name="balance" required
                         value="${customer.balance}">
                 </div>
-                <button type="submit" class="btn btn-success">Save Changes</button>
+                <button type="submit" class="btn btn-success me-3">Save Changes</button>
+                <a href="${pageContext.request.contextPath}/ServletController?action=delete&idCustomer=${customer.id_customer}"
+                   class="btn btn-danger">
+                    <i class="bi bi-trash"></i>&nbsp;Delete Customer
+                </a>
             </div>
         </div>
     </div>

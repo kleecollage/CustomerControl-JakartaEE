@@ -15,6 +15,7 @@ public class CustomerDao {
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM customers WHERE id_customer = ?";
     private static final String SQL_UPDATE =
             "UPDATE customers SET name = ?, surname = ?, email = ?, phone = ?, balance = ? WHERE id_customer = ?";
+    private static final String SQL_DELETE = "DELETE FROM customers WHERE id_customer = ?";
 
     public List<Customer> listCustomers() {
         List<Customer> customers = new ArrayList<>();
@@ -92,4 +93,17 @@ public class CustomerDao {
         }
         return rows;
     }
+
+    public int delete(Customer customer) {
+        int rows = 0;
+        try(Connection conn = DbConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(SQL_DELETE)) {
+            stmt.setInt(1, customer.getId_customer());
+            rows = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+        }
+        return rows;
+    }
+
 }
