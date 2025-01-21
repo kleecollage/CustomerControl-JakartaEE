@@ -1,4 +1,4 @@
-package web.customer.web;
+package web.customer.controller;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
