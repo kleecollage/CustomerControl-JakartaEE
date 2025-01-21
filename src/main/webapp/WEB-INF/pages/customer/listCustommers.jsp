@@ -32,7 +32,7 @@
                                 <td>${customer.name} ${customer.surname}</td>
                                 <td><fmt:formatNumber value="${customer.balance}" type="currency" /></td>
                                 <td>
-                                    <a href="${pageContext.request.contextPath}/ServletController?action=edit&idClient=${customer.id_customer}"
+                                    <a href="${pageContext.request.contextPath}/ServletController?action=edit&idCustomer=${customer.id_customer}"
                                         class="btn btn-secondary btn-sm">
                                         <i class="bi bi-pencil"></i>&nbsp;Edit
                                     </a>

@@ -10,6 +10,10 @@ public class CustomerDao {
     // CRUD
     private static final String SQL_SELECT =
             "SELECT id_customer, name, surname, email, phone, balance FROM customers";
+    private static final String SQL_INSERT =
+            "INSERT INTO customers(name, surname, email, phone, balance) VALUES (?, ?, ?, ?, ?)";
+    private static final String SQL_SELECT_BY_ID =
+            "SELECT * FROM customers WHERE id_customer = ?";
 
     public List<Customer> listCustomers() {
         List<Customer> customers = new ArrayList<>();
@@ -32,5 +36,41 @@ public class CustomerDao {
             exception.printStackTrace(System.err);
         }
         return customers;
+    }
+
+    public int insert(Customer customer) {
+        int rows = 0;
+        try(Connection conn = DbConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(SQL_INSERT)) {
+            stmt.setString(1, customer.getName());
+            stmt.setString(2, customer.getSurname());
+            stmt.setString(3, customer.getEmail());
+            stmt.setString(4, customer.getPhone());
+            stmt.setDouble(5, customer.getBalance());
+
+            rows = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+        }
+        return rows;
+    }
+
+    public Customer findCustomer(Customer customer) {
+        try (Connection conn = DbConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(SQL_SELECT_BY_ID)) {
+            stmt.setInt(1, customer.getId_customer());
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                if (resultSet.next()) {
+                    customer.setName(resultSet.getString("name"));
+                    customer.setSurname(resultSet.getString("surname"));
+                    customer.setEmail(resultSet.getString("email"));
+                    customer.setPhone(resultSet.getString("phone"));
+                    customer.setBalance(resultSet.getDouble("balance"));
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(System.err);
+        }
+        return customer;
     }
 }

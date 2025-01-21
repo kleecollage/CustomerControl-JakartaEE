@@ -17,6 +17,7 @@ public class ServletController extends HttpServlet {
         String action = Optional.ofNullable(request.getParameter("action")).orElse("listCustomers");
         switch (action) {
             case "listCustomers" -> this.listCustomers(request, response);
+            case "edit" -> this.updateCustomer(request, response);
             default -> this.listCustomers(request, response);
         }
     }
@@ -45,9 +46,37 @@ public class ServletController extends HttpServlet {
         return customers.stream().mapToDouble(Customer::getBalance).sum();
     }
 
+    private void updateCustomer(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        int idCustomer = Integer.parseInt(request.getParameter("idCustomer"));
+        Customer customer = new CustomerDao().findCustomer(new Customer(idCustomer));
+        request.setAttribute("customer", customer);
+        String jspUpdate = "/WEB-INF/pages/customer/editCustomer.jsp";
+        request.getRequestDispatcher(jspUpdate).forward(request, response);
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String action = Optional.ofNullable(request.getParameter("action")).orElse("listCustomers");
+        switch (action) {
+            case "insert" -> this.insertCustomer(request, response);
+            default -> this.listCustomers(request, response);
+        }
+    }
 
+    private void insertCustomer(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // PROCESS FORM DATA
+        String name = request.getParameter("name");
+        String surname = request.getParameter("surname");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+        double balance = Double.parseDouble(request.getParameter("balance"));
+        // CREATE OBJECT TYPE CUSTOMER
+        Customer customer = new Customer(name, surname, email, phone, balance);
+        new CustomerDao().insert(customer);
+        // LIST CLIENTS
+        this.listCustomers(request, response);
     }
 }
